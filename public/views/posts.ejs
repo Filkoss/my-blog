@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Blogové příspěvky</title>
+  </head>
+  <body>
+    <h1>Seznam příspěvků</h1>
+    <!-- Formulář pro nový příspěvek -->
+    <form action="/posts" method="POST">
+      <div>
+        <label>Nadpis:</label>
+        <input type="text" name="title" required />
+      </div>
+      <div>
+        <label>Obsah:</label>
+        <textarea name="content" required></textarea>
+      </div>
+      <button type="submit">Přidat příspěvek</button>
+    </form>
+    <hr />
+    <!-- Výpis existujících příspěvků -->
+    <% posts.forEach(post => { %>
+      <div style="margin-bottom: 20px;">
+        <strong><%= post.title %></strong><br />
+        <%= post.content %><br />
+        <em><%= post.created_at %></em>
+      </div>
+    <% }); %>
+    <a href="/">Zpět na hlavní stránku</a>
+  </body>
+</html>
