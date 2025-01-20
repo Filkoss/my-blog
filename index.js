@@ -27,10 +27,12 @@ const pool = mysql.createPool({
 // GET /posts – výpis příspěvků
 app.get('/posts', async (req, res) => {
   try {
+    console.log('Fetching posts...');
     const [rows] = await pool.query('SELECT * FROM posts ORDER BY created_at DESC');
+    console.log(`Fetched ${rows.length} posts`);
     res.render('posts', { posts: rows });
   } catch (err) {
-    console.error(err);
+    console.error('Error fetching posts:', err);
     res.send('Chyba při načítání příspěvků');
   }
 });
@@ -39,13 +41,15 @@ app.get('/posts', async (req, res) => {
 app.post('/posts', async (req, res) => {
   const { title, content } = req.body;
   try {
+    console.log('Adding a new post:', title);
     await pool.query(
       'INSERT INTO posts (title, content, created_at) VALUES (?, ?, NOW())',
       [title, content]
     );
+    console.log('Post added successfully');
     res.redirect('/posts');
   } catch (err) {
-    console.error(err);
+    console.error('Error adding post:', err);
     res.send('Chyba při ukládání příspěvku');
   }
 });
